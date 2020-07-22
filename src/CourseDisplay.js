@@ -1,11 +1,11 @@
 import React from 'react';
-import { Heading, Flex, Input, Button, Grid, Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box, Link } from "@chakra-ui/core";
+import { Heading, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Link } from "@chakra-ui/core";
 
 class CourseDisplay extends React.Component {
     render() {
         return (
             <Flex flexDirection="column" borderRadius="lg" p={[4, 4, 4, 4, 4]} backgroundColor="#B3DEE2" boxShadow="4px 5px 5px 0px #BFBFBF">
-                <Heading mb="10px" fontSize="lg">{this.props.course.courseDetails['Code']}: {this.props.course.courseDetails['Name']}</Heading>
+                <Heading mb="10px" fontSize="lg">{this.props.course.getCourseDetails['Code']}: {this.props.course.getCourseDetails['Name']}</Heading>
                 <Tabs isFitted variant="soft-rounded" variantColor="green">
                 <TabList>
                     <Tab>Course Details</Tab>
@@ -19,14 +19,15 @@ class CourseDisplay extends React.Component {
                                 <div class="cell">Property</div>
                                 <div class="cell">Value</div>
                         </div>
-                        {Object.keys(this.props.course.courseDetails).map((k, i) => {
+                        {Object.keys(this.props.course.getCourseDetails).map((k, i) => {
                             return (
                             <div class="row">
                                 <div class="cell"><b>{k}</b></div>
                                 
                                 <div class="cell">{ k === 'Link' 
-                                ? <Link href={this.props.course.courseDetails[k]} color="blue">{this.props.course.courseDetails[k]}</Link> 
-                                : this.props.course.courseDetails[k]}</div>
+                                ? <Link href={this.props.course.getCourseDetails[k]} color="blue">{this.props.course.getCourseDetails[k]}</Link> 
+                                : k === 'Semesters' ? this.props.course.getCourseDetails[k].join(' and ')
+                                : this.props.course.getCourseDetails[k]}</div>
                             </div>
                             );
                         })}
@@ -38,11 +39,11 @@ class CourseDisplay extends React.Component {
                                 <div class="cell">Activity</div>
                                 <div class="cell">Hours</div>
                         </div>
-                        {Object.keys(this.props.course.studyLoad).map((k, i) => {
+                        {Object.keys(this.props.course.getStudyLoad).map((k, i) => {
                             return (
                             <div class="row">
                                 <div class="cell"><b>{k}</b></div>
-                                <div class="cell">{this.props.course.studyLoad[k]}</div>
+                                <div class="cell">{this.props.course.getStudyLoad[k]}</div>
                             </div>
                             );
                         })}
@@ -54,11 +55,11 @@ class CourseDisplay extends React.Component {
                                 <div class="cell">Assessment</div>
                                 <div class="cell">Weightage</div>
                         </div>
-                        {Object.keys(this.props.course.amtMethods).map((k, i) => {
+                        {Object.keys(this.props.course.getAmtMethods).map((k, i) => {
                             return (
                             <div class="row">
                                 <div class="cell"><b>{k}</b></div>
-                                <div class="cell">{this.props.course.amtMethods[k]}%</div>
+                                <div class="cell">{this.props.course.getAmtMethods[k]}%</div>
                             </div>
                             );
                         })}

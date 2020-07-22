@@ -1,5 +1,6 @@
 import React from 'react';
 import CourseContent from './CourseContent.js'
+import Query from './Query.js'
 import CourseDisplay from './CourseDisplay.js'
 import { Heading, Flex, Input, Button, Grid, Text, Collapse, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/core";
 import 'typeface-source-code-pro';
@@ -9,7 +10,7 @@ import Typewriter from 'typewriter-effect';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {courses: []};
+    this.state = {courses: [], query: new Query(''), hasValidQuery: false};
   }
 
   getCourses = async function() {
@@ -52,27 +53,40 @@ class App extends React.Component {
           /> </Heading>
         <Text fontFamily="Source Code Pro" fontStyle="italic" fontSize={["15px", "15px", "20px", "20px"]}>your guide to selecting HKU CCs</Text>
         
-        <Tabs isFitted variant="unstyled" mt="4">
+        <Tabs isFitted variant="unstyled" mt="4" defaultIndex = {1}>
           <TabList>
-            <Tab _selected={{ color: "#004777", fontWeight: "bold" }} fontSize={["20px", "20px", "25px", "25px"]}>Search for courses</Tab>
             <Tab _selected={{ color: "#004777", fontWeight: "bold"  }} fontSize={["20px", "20px", "25px", "25px"]}>How it works</Tab>
+            <Tab _selected={{ color: "#004777", fontWeight: "bold" }} fontSize={["20px", "20px", "25px", "25px"]}>Search for courses</Tab>
             <Tab _selected={{ color: "#004777", fontWeight: "bold"  }} fontSize={["20px", "20px", "25px", "25px"]}>About</Tab>
           </TabList>
           <TabPanels>
+            
+            <TabPanel>
+              <p>two!</p>
+            </TabPanel>
             <TabPanel>
             <Flex direction="row" px={["2rem", "2rem", "2rem", "5rem"]} py="2rem">
-              <Input flexGrow={4} placeholder="Enter query" mx="1rem"/>
-              <Button variantColor="blue" size="md" mr="1rem">Search</Button>
+              <Input flexGrow={4} placeholder="Enter query" mx="1rem" id="queryBox"/>
+              <Button variantColor="blue" size="md" mr="1rem" onClick={()=>{
+                try{
+                  const q = new Query(document.getElementById('queryBox').value);
+                  this.setState({query: q, hasValidQuery: true});
+                }
+                catch(e) {
+                  console.log("bad boy");
+                  this.setState({query: new Query(''), hasValidQuery: false})
+                }
+                  
+              }}>Search</Button>
             </Flex>
 
             <Grid templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap="2vw" rowGap="2vh" px={["2rem", "2rem", "2rem", "5rem"]}>
             {this.state.courses.map((value) => {
-              return (<CourseDisplay course = {value}/>);
+              if (!this.state.hasValidQuery) return (<CourseDisplay course = {value}/>);
+              if (this.state.query.evaluate(value)) return (<CourseDisplay course = {value}/>);
+              return <></>
             })} 
             </Grid>
-            </TabPanel>
-            <TabPanel>
-              <p>two!</p>
             </TabPanel>
             <TabPanel>
               <p>three!</p>
