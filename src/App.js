@@ -10,7 +10,7 @@ import Typewriter from 'typewriter-effect';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {courses: [], query: new Query(''), hasValidQuery: false};
+    this.state = {courses: [], query: new Query(''), hasValidQuery: true};
   }
 
   getCourses = async function() {
@@ -78,7 +78,9 @@ class App extends React.Component {
                 }
                   
               }}>Search</Button>
+              
             </Flex>
+            <Collapse isOpen={!this.state.hasValidQuery} mt = "0px" mb="10px"><Text style = {{color: "#FF0000"}} fontSize={["20px", "20px", "25px", "25px"]}>Invalid search! Displaying all CCs.</Text></Collapse>
 
             <Grid templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap="2vw" rowGap="2vh" px={["2rem", "2rem", "2rem", "5rem"]}>
             {this.state.courses.map((value) => {
