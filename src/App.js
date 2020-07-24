@@ -6,11 +6,14 @@ import { Heading, Flex, Input, Button, Grid, Text, Collapse, Tabs, TabList, TabP
 import 'typeface-source-code-pro';
 import './App.css';
 import Typewriter from 'typewriter-effect';
+import GuiQuery from './GuiQuery.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {courses: [], query: new Query(''), hasValidQuery: true};
+    this.state = {courses: [], query: new Query(''), hasValidQuery: true, queries: [], filteredCourses: [], showQueries: true};
+    this.deleteVal = this.deleteVal.bind(this);
+    this.updateParam = this.updateParam.bind(this);
   }
 
   getCourses = async function() {
@@ -23,7 +26,6 @@ class App extends React.Component {
     let courses = [];
   
     for (let i = 0; i < rawCourses.length; i += 3) {
-      console.log(i)
       courses.push(new CourseContent(rawCourses[i], rawCourses[i + 2], rawCourses[i + 1]));
     }
   
@@ -32,13 +34,55 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCourses()
-      .then(courseList => {this.setState({courses: courseList});});
+      .then(courseList => {this.setState({courses: courseList, filteredCourses: courseList});});
+  }
+
+  deleteVal(i) {
+    const tempQueries = this.state.queries.filter((el, ind) => {return ind !== i});
+    this.setState({queries: tempQueries});
+
+    console.log(`Calling from delete, length of queries is ${this.state.queries.length}`)
+
+    this.updateCourses(tempQueries);
+  }
+
+  updateParam(i, param, value) {
+    let tempQuery = [...this.state.queries];
+    tempQuery[i]['params'][param] = value;
+    if (((tempQuery[i]['params']['courseptOp'] ? 1 : 0) ^ (tempQuery[i]['params']['courseptNum'] ? 1 : 0)) || ((tempQuery[i]['params']['hoursOp'] ? 1 : 0) ^ (tempQuery[i]['params']['hoursNum'] ? 1 : 0))) {
+      tempQuery[i]['valid'] = false;
+    }
+    else tempQuery[i]['valid'] = true;
+
+    this.setState({queries: tempQuery});
+
+    console.log(`Calling from updateParam, length of queries is ${this.state.queries.length}`)
+
+    this.updateCourses(tempQuery);
+  }
+
+  updateCourses(updatedQueryList) {
+    console.log("The query list is:")
+    console.log(this.state.queries);
+    this.setState({filteredCourses: []})
+    this.setState({filteredCourses: this.state.courses.filter((course) => {
+      let satisfies = false;
+
+      updatedQueryList.some((query) => {
+        console.log("Query");
+        console.log(query);
+        if (query['valid']) satisfies = satisfies || course.satisfiesQuery(query['params']);
+        return satisfies;
+      })
+
+      return satisfies;
+    })});
   }
 
   render() {
     return (
       <div className="App">         
-      <Flex direction="column" mb="20px">
+      <Flex direction="column" mb="20px" justifyContent="space-between" alignItems="center">
       <Heading as="h1" fontSize={["40px", "40px", "60px", "80px"]} marginTop="1rem" fontFamily="Source Code Pro" fontStyle="italic"><Typewriter
             onInit={(typewriter) => {
               typewriter.typeString('commoncourse')
@@ -53,7 +97,7 @@ class App extends React.Component {
           /> </Heading>
         <Text fontFamily="Source Code Pro" fontStyle="italic" fontSize={["15px", "15px", "20px", "20px"]}>your guide to selecting HKU CCs</Text>
         
-        <Tabs isFitted variant="unstyled" mt="4" defaultIndex = {1}>
+        <Tabs isFitted variant="unstyled" mt="4" defaultIndex = {1} alignSelf="stretch">
           <TabList>
             <Tab _selected={{ color: "#004777", fontWeight: "bold"  }} fontSize={["20px", "20px", "25px", "25px"]}>How it works</Tab>
             <Tab _selected={{ color: "#004777", fontWeight: "bold" }} fontSize={["20px", "20px", "25px", "25px"]}>Search for courses</Tab>
@@ -61,37 +105,47 @@ class App extends React.Component {
           </TabList>
           <TabPanels>
             
-            <TabPanel>
-              <p>two!</p>
+            <TabPanel alignSelf="flex-start">
+              <Text textAlign="left" px={["2rem", "2rem", "2rem", "5rem"]}>two!</Text>
             </TabPanel>
             <TabPanel>
-            <Flex direction="row" px={["2rem", "2rem", "2rem", "5rem"]} py="2rem">
-              <Input flexGrow={4} placeholder="Enter query" mx="1rem" id="queryBox"/>
-              <Button variantColor="blue" size="md" mr="1rem" onClick={()=>{
-                try{
-                  const q = new Query(document.getElementById('queryBox').value);
-                  this.setState({query: q, hasValidQuery: true});
-                }
-                catch(e) {
-                  console.log("bad boy");
-                  this.setState({query: new Query(''), hasValidQuery: false})
-                }
-                  
-              }}>Search</Button>
+            <Flex direction="row" px={["2rem", "2rem", "2rem", "5rem"]} py="1rem" justifyContent="space-evenly">
               
+
+              <Button variantColor="blue" size="md" isDisabled = {!this.state.showQueries} onClick = {() => {
+                this.setState({queries: this.state.queries.concat([{'params': {}, 'valid': null}])});
+                this.updateCourses(this.state.queries);
+              }} >Add a new query</Button>
+              <Button variantColor="blue" size="md" onClick={() => {this.setState({showQueries: !this.state.showQueries})}}>{this.state.showQueries ? "Hide" : "Show"} queries</Button>
+              <Button variantColor="blue" size="md" isDisabled = {this.state.queries.length === 0} onClick={() => {
+                this.setState({filteredCourses: this.state.courses, queries: []});
+                }}>Reset to all courses</Button>
+              
+
             </Flex>
             <Collapse isOpen={!this.state.hasValidQuery} mt = "0px" mb="10px"><Text style = {{color: "#FF0000"}} fontSize={["20px", "20px", "25px", "25px"]}>Invalid search! Displaying all CCs.</Text></Collapse>
 
+            <Collapse isOpen={this.state.showQueries}>
+              {
+                this.state.queries.map((v, i) => {
+                  console.log("Rendering:")
+                  console.log(v);
+                  return <GuiQuery key = {i} index={i} close={this.deleteVal} updateParam={this.updateParam} params={v['params']} valid={v['valid']}/>
+                })
+              }
+            </Collapse>
+
             <Grid templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap="2vw" rowGap="2vh" px={["2rem", "2rem", "2rem", "5rem"]}>
-            {this.state.courses.map((value) => {
-              if (!this.state.hasValidQuery) return (<CourseDisplay course = {value}/>);
-              if (this.state.query.evaluate(value)) return (<CourseDisplay course = {value}/>);
-              return <></>
+            
+            {this.state.filteredCourses.map((value) => {
+              return <CourseDisplay course = {value}/>;
             })} 
+            {this.state.queries.length === 0 ? <Text>Try adding some queries!</Text> : <></>}
+            {this.state.queries.length && this.state.filteredCourses.length === 0 ? <Text>There are no such courses.</Text> : <></>}
             </Grid>
             </TabPanel>
             <TabPanel>
-              <p>three!</p>
+              
             </TabPanel>
           </TabPanels>
         </Tabs>

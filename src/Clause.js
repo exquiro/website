@@ -13,10 +13,7 @@ class Clause {
             return;
         }
         //Remove parentheses
-        expr = expr.replace(/[\(|\)|\s]*/g, '');
-        console.log("expr comin up")
-        console.log(expr)
-
+        expr = expr.replace(/[(|)|\s]*/g, '');
         const result = this.validateClause(expr);
 
         //Throw exception if clause is invalid
@@ -35,17 +32,12 @@ class Clause {
         //Split into tokens
         const tokens = expr.split(/(\W+)/);
 
-        console.log("tokens")
-        console.log(tokens)
-
         //If there are more/less than 3 tokens, expression is invalid
         if (tokens.length !== 3) return false;
 
         //If the key doesn't exist, or has an invalid operator, expression is invalid
         if (!Keys.includes(tokens[0])) return false;
         if (!Operators[tokens[0]].includes(tokens[1])) return false;
-
-        console.log("made it");
 
         //If the value for the given key is invalid, expression is invalid
         const validValues = Values[tokens[0]];

@@ -12,7 +12,6 @@ class Query {
         
         if (expr === '') return;
 
-        console.log(expr.toLowerCase().split(new RegExp(/&&|\|\|/)));
 
         try {
             expr.toLowerCase().split(new RegExp(/&&|\|\|/)).forEach(element => {
@@ -20,17 +19,13 @@ class Query {
             });
         }
         catch (e) {
-            console.log(e);
             throw new Error('One or more clauses are invalid.'); 
         }
 
         try {
-            console.log("hello");
-            console.log(this.#rawString);
             this.validateQuery();
         }
         catch (e) {
-            console.log(e);
             throw new Error('Query structure is invalid!')
         }
     }
@@ -38,14 +33,10 @@ class Query {
     validateQuery() {
         let parsedArray = [];
         this.#rawString.toLowerCase().split(new RegExp(/(&&|\|\|)/)).forEach(element => {
-            console.log("cur ele");
-            console.log(element);
             if (element === '&&' || element === '||') parsedArray.push(element);
             else parsedArray.push(element.replace(/\s*/g,'').replace(new RegExp(/[\w<>=]+/g), '1'));
         });
-        console.log(parsedArray);
         try {
-            console.log(parse(parsedArray.join('')));
             parse(parsedArray.join(''));
         }
         catch (e) {
@@ -77,7 +68,6 @@ class Query {
              return parse(parsedArray.join(''));
         }
         catch (e) {
-            console.log(e);
             throw new Error('Query structure is invalid.')
         }
     }

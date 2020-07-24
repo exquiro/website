@@ -23,39 +23,56 @@ class CourseContent {
         return this.#amtMethods;
     }
 
-    satisfiesClause(clause) {
-        const key = clause.getKey;
-        let operator = clause.getOperator;
-        if (operator == '=') operator = '===';
-        const value = clause.getValue;
+    satisfiesQuery(query) {
+        if (Object.keys(query).length === 2 && Object.values(query).includes('')) return false;
         const activities = Object.keys(this.#studyLoad).join('').toLowerCase() + Object.keys(this.#amtMethods).join('').toLowerCase();
-        switch (key) {
-            case "area":
-                switch (value) {
-                    case "st":
-                        return this.#courseDetails['Area of Inquiry'] === 'Science and Technology';
-                    case "gl":
-                        return this.#courseDetails['Area of Inquiry'] === 'Global Issues';
-                    case "hu":
-                        return this.#courseDetails['Area of Inquiry'] === 'Humanities';
-                    case "ch":
-                        return this.#courseDetails['Area of Inquiry'] === 'China';
+        let satisfies = true;
+
+        for (const [key, value] of Object.entries(query)) {
+            if (key === 'courseptOp' || key === 'hoursOp') continue;
+            
+            console.log(key);
+            console.log(value);
+            switch (key) {
+                case "area":
+                    switch (value) {
+                        case "st":
+                            satisfies = satisfies && this.#courseDetails['Area of Inquiry'] === 'Science and Technology';
+                            break;
+                        case "gl":
+                            satisfies = satisfies && this.#courseDetails['Area of Inquiry'] === 'Global Issues';
+                            break;
+                        case "hu":
+                            satisfies = satisfies && this.#courseDetails['Area of Inquiry'] === 'Humanities';
+                            break;
+                        case "ch":
+                            satisfies = satisfies && this.#courseDetails['Area of Inquiry'] === 'China';
+                            break;
+                    }
+                    break;
+                case "semester": 
+                    if (value !== 'both') satisfies = satisfies &&  this.#courseDetails['Semesters'].includes(value);
+                    else satisfies = satisfies && this.#courseDetails['Semesters'].length === 2;
+                    break;
+                case "courseptNum":
+                    satisfies = satisfies && parse(`${this.#courseDetails['Coursework Percentage']} ${query['courseptOp']} ${value}`);
+                    break;
+                case "hoursNum":
+                    satisfies = satisfies && parse(`${this.#courseDetails['Study hours']} ${query['hoursOp']} ${value}`);
+                    break;
+                case "group":
+                    satisfies = satisfies && ((value === 'yes') == activities.includes('group'));
+                    break;
+                case "essay":
+                    satisfies = satisfies && ((value === 'yes') == activities.includes('essay'));
+                    break;
+                case "visit":
+                    satisfies = satisfies && ((value === 'yes') == (activities.includes('trip') || activities.includes('field') || activities.includes('visit')));
+                    break;
                 }
-                break;
-            case "semester": 
-                if (value !== 'both') return this.#courseDetails['Semesters'].includes(value);
-                return this.#courseDetails['Semesters'].length === 2;
-            case "coursept":
-                return parse(`${this.#courseDetails['Coursework Percentage']} ${operator} ${value}`);
-            case "hours":
-                return parse(`${this.#courseDetails['Study hours']} ${operator} ${value}`);
-            case "group":
-                return (value === 'yes') == activities.includes('group');
-            case "essay":
-                return (value === 'yes') == activities.includes('essay');
-            case "visit":
-                return (value === 'yes') == (activities.includes('trip') || activities.includes('field') || activities.includes('visit'));
         }
+
+        return satisfies;
     }
 }
 

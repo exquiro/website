@@ -2,6 +2,9 @@ import React from 'react';
 import { Heading, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Link } from "@chakra-ui/core";
 
 class CourseDisplay extends React.Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props !== nextProps;
+    }
     render() {
         return (
             <Flex flexDirection="column" borderRadius="lg" p={[4, 4, 4, 4, 4]} backgroundColor="#B3DEE2" boxShadow="4px 5px 5px 0px #BFBFBF">
