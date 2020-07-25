@@ -14,6 +14,7 @@ class App extends React.Component {
     this.state = {courses: [], queries: [], filteredCourses: [], showQueries: true};
     this.deleteVal = this.deleteVal.bind(this);
     this.updateParam = this.updateParam.bind(this);
+    this.duplicateFilter = this.duplicateFilter.bind(this);
   }
 
   getCourses = async function() {
@@ -39,6 +40,12 @@ class App extends React.Component {
 
   deleteVal(i) {
     const tempQueries = this.state.queries.filter((el, ind) => {return ind !== i});
+    this.setState({queries: tempQueries});
+    this.updateCourses(tempQueries);
+  }
+
+  duplicateFilter(i) {
+    const tempQueries = this.state.queries.concat([JSON.parse(JSON.stringify(this.state.queries[i]))]);
     this.setState({queries: tempQueries});
     this.updateCourses(tempQueries);
   }
@@ -108,12 +115,12 @@ class App extends React.Component {
                       this.setState({queries: this.state.queries.concat([{'params': {}, 'valid': null}])});
                       this.updateCourses(this.state.queries);
                     }
-                  }>Add a new query</Button>
+                  }>Add a new filter</Button>
                   <Button variantColor="blue" size="md" onClick={
                     () => {
                       this.setState({showQueries: !this.state.showQueries});
                     }
-                  }>{this.state.showQueries ? "Hide" : "Show"} queries</Button>
+                  }>{this.state.showQueries ? "Hide" : "Show"} filters</Button>
                   <Button variantColor="blue" size="md" isDisabled = {this.state.queries.length === 0} onClick={
                     () => {
                       this.setState({filteredCourses: this.state.courses, queries: []});
@@ -124,7 +131,7 @@ class App extends React.Component {
                 <Collapse isOpen={this.state.showQueries}>
                   {
                     this.state.queries.map((v, i) => {
-                      return <Query key = {i} index={i} close={this.deleteVal} updateParam={this.updateParam} params={v['params']} valid={v['valid']}/>
+                      return <Query key = {i} index={i} close={this.deleteVal} updateParam={this.updateParam} duplicate={this.duplicateFilter} params={v['params']} valid={v['valid']}/>
                     })
                   }
                 </Collapse>

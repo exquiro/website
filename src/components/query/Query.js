@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormLabel, RadioGroup, Radio, Box, Grid, Flex, Divider, Select, NumberInput, NumberInputField, Text,Heading, Collapse, CloseButton } from "@chakra-ui/core";
+import { FormLabel, RadioGroup, Radio, Box, Grid, Flex, Divider, Select, NumberInput, NumberInputField, Text,Heading, Collapse, IconButton, Tooltip } from "@chakra-ui/core";
 
-const Query = ({ index, close, updateParam, params, valid }) => {
+const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
   return (
     <Box mb="2vh" backgroundColor="#FFFFFF"  boxShadow="4px 5px 5px 0px #BFBFBF" borderColor="#000000" borderWidth="1px" borderRadius="lg" mx={["2rem", "2rem", "2rem", "5rem"]} px={["1.5rem", "1.5rem", "1.5rem", "3.75rem"]} py={["0.5rem", "0.5rem", "0.5rem", "1.25rem"]}>
       <Grid templateColumns="3fr 100fr 1fr">
@@ -87,7 +87,10 @@ const Query = ({ index, close, updateParam, params, valid }) => {
           </Grid>
           <Collapse isOpen={valid != null && !valid}><Text color="tomato" as="strong">Invalid filter!</Text></Collapse>
         </Flex>
-        <CloseButton size="md" onClick={()=>{close(index)}}/> 
+        <Box>
+          <Tooltip hasArrow label="Delete this filter" placement="left"><IconButton variant="ghost" color="#7c7c7c" fontSize="md" icon="close" onClick={() => {close(index)}}/></Tooltip> 
+          <Tooltip hasArrow label="Duplicate this filter" placement="left"><IconButton variant="ghost" color="#7c7c7c" fontSize="2xl" icon="copy" onClick={() => {duplicate(index)}}/></Tooltip>
+        </Box>
       </Grid> 
     </Box>
   );
