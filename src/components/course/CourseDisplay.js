@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Link } from "@chakra-ui/core";
 
-const CourseDisplay = ({ course }) => {
+const CourseDisplay = ({ course, isSmall }) => {
   return (
     <Flex flexDirection="column" borderRadius="lg" p={[4, 4, 4, 4, 4]} backgroundColor="#e7d9c6" boxShadow="4px 4px 5px 0px #aaaaaa">
       <Heading mb="10px" fontSize="lg" alignSelf="center" color="#505050"> {course.getCourseDetails['Code']} : {course.getCourseDetails['Name']} </Heading>
@@ -28,7 +28,7 @@ const CourseDisplay = ({ course }) => {
                   <div class="cell">
                     { 
                       k === 'Link' 
-                      ? <Link href={course.getCourseDetails[k]} color="blue"> {course.getCourseDetails[k]} </Link> 
+                      ? <Link isExternal href={course.getCourseDetails[k]} color="#00b4b4">  {course.getCourseDetails[k]} </Link> 
                       : k === 'Semesters' ? course.getCourseDetails[k].join(' and ')
                                           : course.getCourseDetails[k]
                     }
@@ -50,7 +50,7 @@ const CourseDisplay = ({ course }) => {
               return (
                 <div class="row">
                   <div class="cell"><b> {k} </b></div>
-                  <div class="cell"> {course.getStudyLoad[k]} </div>
+                  <div class="cell"> {`${course.getStudyLoad[k]} ${isSmall ? " hours" : ""}`} </div>
                 </div>
               );
             })

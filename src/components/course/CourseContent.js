@@ -32,7 +32,7 @@ class CourseContent {
 
     for (const [key, value] of Object.entries(query)) {
       if (key === "courseptOp" || key === "hoursOp") continue;
-      if ((key === "courseptNum" && query['courseptOp'].length === 0) || (key === "hoursNum" && query['hoursOp'] .length === 0)) continue;
+      if ((key === "courseptNum" && query['courseptOp'].length === 0) || (key === "hoursNum" && query['hoursOp'].length === 0)) continue;
 
       switch (key) {
 

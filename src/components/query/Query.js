@@ -85,7 +85,7 @@ const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
               </Flex>
             </Flex>
           </Grid>
-          <Collapse isOpen={valid != null && !valid}><Text color="tomato" as="strong">Invalid filter!</Text></Collapse>
+          <Collapse isOpen={valid != null && !valid} mt="10px"><Text color="tomato" as="strong">Invalid filter! If you wish to specify the coursework percentage and/or the study hours, make sure to choose an option from the dropdown and also fill in the percentage/number of hours. </Text></Collapse>
         </Flex>
         <Box pr={["15px", "15px", "15px", "15px"]} alignSelf="start">
           <Tooltip hasArrow label="Delete this filter" placement="left"><IconButton variant="ghost" color="#7c7c7c" fontSize="md" icon="close" onClick={() => {close(index)}}/></Tooltip> 
