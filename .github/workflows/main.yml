@@ -19,3 +19,5 @@ jobs:
 
     - name: Deploy website
       run: npm run deploy
+      env:
+        CI: false
