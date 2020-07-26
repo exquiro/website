@@ -26,5 +26,5 @@ jobs:
       with:
         personal_token: ${{ secrets.GH_TOKEN }}
         external_repository: exquiro/exquiro.github.io
-        publish_dir: ./public
+        publish_dir: ./build
         publish_branch: master
