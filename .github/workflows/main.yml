@@ -9,20 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Authenticate with GitHub
-      uses: fusion-engineering/setup-git-credentials@v2
-      with:
-        credentials: ${{secrets.GH_TOKEN}}
-        
     - name: Checkout
       uses: actions/checkout@v2
       with:
         persist-credentials: false
 
-    - name: Install packages
-      run: npm install
+    - name: Install packages and build
+      run: |
+        npm install
+        npm run build
 
     - name: Deploy website
-      run: npm run deploy
-      env:
-        CI: false
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.GH_TOKEN }}
+        external_repository: exquiro/exquiro.github.io
+        publish_dir: ./public
+        publish_branch: master
+
