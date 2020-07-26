@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Authenticate with GitHub
+      uses: fusion-engineering/setup-git-credentials@v2
+      with:
+        credentials: ${{secrets.GH_TOKEN}}
+        
     - name: Checkout
       uses: actions/checkout@v2
       with:
