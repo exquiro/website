@@ -1,8 +1,5 @@
-.App {
-}
-
 body {
-  background-color: #EAF2D7;
+  background-color: #eae7dc;
 }
 
 
@@ -27,7 +24,8 @@ body {
 .row.header {
   font-size: 20px;
   color: #ffffff;
-  background: #004777;
+  background: #8E8D8A;
+  font-family: 'Lato';
 }
 .row.green {
   background: #27ae60;

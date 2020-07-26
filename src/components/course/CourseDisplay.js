@@ -3,13 +3,13 @@ import { Heading, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Link } from "@c
 
 const CourseDisplay = ({ course }) => {
   return (
-    <Flex flexDirection="column" borderRadius="lg" p={[4, 4, 4, 4, 4]} backgroundColor="#B3DEE2" boxShadow="4px 5px 5px 0px #BFBFBF">
-      <Heading mb="10px" fontSize="lg" alignSelf="center"> {course.getCourseDetails['Code']} : {course.getCourseDetails['Name']} </Heading>
-      <Tabs isFitted variant="soft-rounded" variantColor="green">
+    <Flex flexDirection="column" borderRadius="lg" p={[4, 4, 4, 4, 4]} backgroundColor="#e7d9c6" boxShadow="4px 4px 5px 0px #aaaaaa">
+      <Heading mb="10px" fontSize="lg" alignSelf="center" color="#505050"> {course.getCourseDetails['Code']} : {course.getCourseDetails['Name']} </Heading>
+      <Tabs isFitted variant="soft-rounded" variantColor="tan">
       <TabList>
-        <Tab>Course Details</Tab>
-        <Tab>Study Load</Tab>
-        <Tab>Assessment Methods</Tab>
+        <Tab _selected={{backgroundColor: "#b68d54", color:"#ededed"}} color="#454545">Course Details</Tab>
+        <Tab _selected={{backgroundColor: "#b68d54", color:"#ededed"}} color="#454545">Study Load</Tab>
+        <Tab _selected={{backgroundColor: "#b68d54", color:"#ededed"}} color="#454545">Assessment Methods</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>

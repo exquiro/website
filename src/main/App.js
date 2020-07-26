@@ -5,7 +5,7 @@ import CourseDisplay from '../components/course/CourseDisplay.js'
 import { Heading, Flex, Button, Grid, Text, Collapse, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/core";
 import 'typeface-source-code-pro';
 import '../styles/App.css';
-import Typewriter from 'typewriter-effect';
+import { BsEye, BsEyeSlash, BsPlus,BsArrow90DegLeft } from 'react-icons/bs';
 
 class App extends React.Component {
 
@@ -51,6 +51,8 @@ class App extends React.Component {
   }
 
   updateParam(i, param, value) {
+    console.log(param);
+    console.log(value);
     let tempQuery = [...this.state.queries];
     tempQuery[i]['params'][param] = value;
 
@@ -80,27 +82,16 @@ class App extends React.Component {
     return (
       <div className="App">         
         <Flex direction="column" mb="20px" justifyContent="space-between" alignItems="center">
-          <Heading as="h1" fontSize={["40px", "40px", "60px", "80px"]} marginTop="1rem" fontFamily="Source Code Pro" fontStyle="italic">
-            <Typewriter
-                onInit={(typewriter) => {
-                  typewriter.typeString('commoncourse')
-                    .pauseFor(2500)
-                    .deleteAll()
-                    .start();
-                }}
-
-                options={{
-                  loop: true,
-                }}
-              /> 
+          <Heading as="h1" fontSize={["40px", "40px", "60px", "80px"]} marginTop="1rem" fontFamily="Source Code Pro" fontStyle="italic" color="#e85a4f">
+            exquiro
           </Heading>
-          <Text fontFamily="Source Code Pro" fontStyle="italic" fontSize={["15px", "15px", "20px", "20px"]}>your guide to selecting HKU CCs</Text>
+          <Text fontFamily="Source Code Pro" fontStyle="italic" fontSize={["15px", "15px", "20px", "20px"]} color="#e89074"><b>your guide to selecting HKU CCs</b></Text>
           
           <Tabs isFitted variant="unstyled" mt="4" defaultIndex = {1} alignSelf="stretch">
-            <TabList>
-              <Tab _selected={{ color: "#004777", fontWeight: "bold"  }} fontSize={["20px", "20px", "25px", "25px"]}>How it works</Tab>
-              <Tab _selected={{ color: "#004777", fontWeight: "bold" }} fontSize={["20px", "20px", "25px", "25px"]}>Search for courses</Tab>
-              <Tab _selected={{ color: "#004777", fontWeight: "bold"  }} fontSize={["20px", "20px", "25px", "25px"]}>About</Tab>
+            <TabList alignSelf="stretch">
+              <Tab _selected={{ fontWeight: "bold", backgroundColor: "#eb7a64" }} fontSize={["15px", "15px", "20px", "20px"]} color="#ffffff" backgroundColor="#ee8a81" ><Text px={["0px", "0px", "0px", "0px"]}>How it works</Text></Tab>
+              <Tab _selected={{ fontWeight: "bold", backgroundColor: "#eb7a64" }} fontSize={["15px", "15px", "20px", "20px"]} color="#ffffff" backgroundColor="#ee8a81" ><Text px={["0px", "0px", "0px", "0px"]}>Search for courses</Text></Tab>
+              <Tab _selected={{ fontWeight: "bold", backgroundColor: "#eb7a64" }} fontSize={["15px", "15px", "20px", "20px"]} color="#ffffff" backgroundColor="#ee8a81" ><Text px={["0px", "0px", "0px", "0px"]}>About</Text></Tab>
             </TabList>
 
             <TabPanels>
@@ -109,23 +100,24 @@ class App extends React.Component {
               </TabPanel>
 
               <TabPanel>
-                <Flex direction="row" px={["2rem", "2rem", "2rem", "5rem"]} py="1rem" justifyContent="space-evenly">
-                  <Button variantColor="blue" size="md" isDisabled = {!this.state.showQueries} onClick = {
+                <Flex direction={["column", "column", "column", "row"]} px={["2rem", "2rem", "2rem", "15rem"]} py="1rem" justifyContent="space-between">
+                  <Button backgroundColor="#E0CFB800" _hover={{backgroundColor: "#C8A97E"}} size="md" mb={["5px", "5px", "0px", "0px"]} leftIcon={BsPlus} isDisabled = {!this.state.showQueries} onClick = {
                     () => {
                       this.setState({queries: this.state.queries.concat([{'params': {}, 'valid': null}])});
                       this.updateCourses(this.state.queries);
                     }
-                  }>Add a new filter</Button>
-                  <Button variantColor="blue" size="md" onClick={
+                  }><Text fontSize="lg">Add a new filter</Text></Button>
+                  
+                  <Button backgroundColor="#E0CFB800" _hover={{backgroundColor: "#C8A97E"}} size="md" mb={["5px", "5px", "0px", "0px"]} leftIcon={this.state.showQueries ? BsEyeSlash : BsEye} isDisabled = {this.state.queries.length === 0} onClick={
                     () => {
                       this.setState({showQueries: !this.state.showQueries});
                     }
-                  }>{this.state.showQueries ? "Hide" : "Show"} filters</Button>
-                  <Button variantColor="blue" size="md" isDisabled = {this.state.queries.length === 0} onClick={
+                  }><Text fontSize="lg">{this.state.showQueries ? "Hide" : "Show"} filters</Text></Button>
+                  <Button backgroundColor="#E0CFB800" _hover={{backgroundColor: "#C8A97E"}} size="md" mb={["5px", "5px", "0px", "0px"]} leftIcon={BsArrow90DegLeft} isDisabled = {this.state.queries.length === 0} onClick={
                     () => {
-                      this.setState({filteredCourses: this.state.courses, queries: []});
+                      this.setState({filteredCourses: this.state.courses, queries: [], showQueries: true});
                     }
-                  }>Reset to all courses</Button>
+                  }><Text fontSize="lg">Reset to all courses</Text></Button>
                 </Flex>
 
                 <Collapse isOpen={this.state.showQueries}>
@@ -136,20 +128,22 @@ class App extends React.Component {
                   }
                 </Collapse>
 
-                <Grid templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap="2vw" rowGap="2vh" px={["2rem", "2rem", "2rem", "5rem"]}>
+                <Grid templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap="2vh" rowGap="2vh" px={["2rem", "2rem", "2rem", "5rem"]}>
               
                   {
                     this.state.filteredCourses.map((value) => {
                       return <CourseDisplay course = {value}/>;
                     })
                   } 
-                  {this.state.queries.length === 0 ? <Text>Try adding some queries!</Text> : <></>}
-                  {this.state.queries.length && this.state.filteredCourses.length === 0 ? <Text>There are no such courses.</Text> : <></>}
+
                 </Grid>
+
+                {this.state.queries.length === 0 ? <Text fontSize={["20px", "20px", "25px", "25px"]} textAlign="center">Try adding some queries, or check out the 'How it works' section if you need help!</Text> : <></>}
+                {this.state.queries.length && this.state.filteredCourses.length === 0 ? <Text fontSize={["20px", "20px", "25px", "25px"]} textAlign="center">There are no courses that satisfy these filters.</Text> : <></>}
               </TabPanel>
 
               <TabPanel>
-                
+                <Text fontSize={["20px", "20px", "25px", "25px"]}>Test!</Text>
               </TabPanel>
             </TabPanels>
           </Tabs>
