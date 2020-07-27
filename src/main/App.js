@@ -145,6 +145,9 @@ class App extends React.Component {
                       <b>Field trip</b> - whether you want field trips/visits in your desired CCs or not
                     </ListItem>
                     <ListItem>
+                      <b>Delivery mode</b> - whether your desired CCs are delivered in online/mixed/offline mode
+                    </ListItem>
+                    <ListItem>
                       <b>Coursework percentage</b> - the percentage of coursework you want in your desired CCs: 100% means no exam, while 60% would mean 60% coursework, 40% examination
                     </ListItem>
                     <ListItem>
