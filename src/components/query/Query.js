@@ -52,6 +52,15 @@ const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
                 <Radio value="no" color="#494846">No</Radio>
               </RadioGroup>
             </Flex>
+
+            <Flex direction = "column" justifyContent="space-between">
+              <FormLabel as="legend" color="#494846"><b>Delivery mode:</b></FormLabel>
+              <RadioGroup isInline onChange={(e) => {updateParam(index, 'delivery', e.target.value)}} value = {params['delivery'] || "null"}>
+                <Radio value="online" color="#494846">Online</Radio>
+                <Radio value="mixed" color="#494846">Mixed</Radio>
+                <Radio value="offline" color="#494846">Offline</Radio>
+              </RadioGroup>
+            </Flex>
         
           </Grid>
           <Grid mt="10px" templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap={["20px", "20px", "20px", "0px"]} rowGap="10px">

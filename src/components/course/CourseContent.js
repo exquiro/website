@@ -9,6 +9,8 @@ class CourseContent {
     this.#courseDetails = JSON.parse(courseDetailsString);
     this.#studyLoad = JSON.parse(studyLoadString);
     this.#amtMethods = JSON.parse(amtMethodsString);
+
+    console.log(this.#courseDetails);
   }
 
   get getCourseDetails() {
@@ -37,20 +39,7 @@ class CourseContent {
       switch (key) {
 
         case "area":
-          switch (value) {
-            case "st":
-              satisfies = satisfies && this.#courseDetails["Area of Inquiry"] === "Science and Technology";
-              break;
-            case "gl":
-              satisfies = satisfies && this.#courseDetails["Area of Inquiry"] === "Global Issues";
-              break;
-            case "hu":
-              satisfies = satisfies && this.#courseDetails["Area of Inquiry"] === "Humanities";
-              break;
-            case "ch":
-              satisfies = satisfies && this.#courseDetails["Area of Inquiry"] === "China";
-              break;
-          }
+          satisfies = satisfies && this.#courseDetails["Code"].slice(2, 4) === value;
           break;
 
         case "semester":
@@ -76,6 +65,10 @@ class CourseContent {
 
         case "visit":
           satisfies = satisfies && (value === "yes") == (activities.includes("trip") || activities.includes("field") || activities.includes("visit"));
+          break;
+
+        case "delivery":
+          satisfies = satisfies && value === this.#courseDetails["Delivery mode"].toLowerCase();
           break;
       }
     }
