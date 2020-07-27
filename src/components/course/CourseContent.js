@@ -39,7 +39,7 @@ class CourseContent {
       switch (key) {
 
         case "area":
-          satisfies = satisfies && this.#courseDetails["Code"].slice(2, 4) === value;
+          satisfies = satisfies && this.#courseDetails["Code"].slice(2, 4).toLowerCase() === value;
           break;
 
         case "semester":
