@@ -13,7 +13,7 @@ const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
           <Flex direction="column" justifyContent="space-between" mb="5px">
             <Flex alignItems={["flex-start", "flex-start", "flex-start", "center"]} direction={["column", "column", "column", "row"]}>
               <FormLabel color="#494846"><b>Course name:</b></FormLabel>
-              <Input width={["100%", "100%", "100%", "90%"]} onChange={(e) => {updateParam(index, 'name', e.target.value)}}></Input>
+              <Input width={["100%", "100%", "100%", "90%"]} onChange={(e) => {updateParam(index, 'name', e.target.value)}} value = {params['name'] || "null"}></Input>
             </Flex>
           </Flex>
           <Grid templateColumns={["1fr", "1fr", "1fr", "2fr 1fr 1fr"]}  rowGap="5px" columnGap={["10px", "10px", "10px", "0px"]}>
