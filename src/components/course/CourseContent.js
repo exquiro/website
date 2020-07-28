@@ -44,7 +44,7 @@ class CourseContent {
       switch (key) {
 
         case "name":
-          satisfies = satisfies && this.#courseDetails["Name"].toLowerCase().includes(value);
+          satisfies = satisfies && this.#courseDetails["Name"].toLowerCase().includes(value.toLowerCase());
           break;
 
         case "area":
