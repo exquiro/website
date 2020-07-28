@@ -30,13 +30,22 @@ class CourseContent {
 
     const activities = Object.keys(this.#studyLoad).join("").toLowerCase() + Object.keys(this.#amtMethods).join("").toLowerCase();
       
-    let satisfies = true;
+    let satisfies = null;
 
     for (const [key, value] of Object.entries(query)) {
+      if (satisfies === false) return false;
+
+      if (key === "name" && value.trim().length === 0) continue;
       if (key === "courseptOp" || key === "hoursOp") continue;
       if ((key === "courseptNum" && query['courseptOp'].length === 0) || (key === "hoursNum" && query['hoursOp'].length === 0)) continue;
 
+      if (satisfies === null) satisfies = true;
+
       switch (key) {
+
+        case "name":
+          satisfies = satisfies && this.#courseDetails["Name"].toLowerCase().includes(value);
+          break;
 
         case "area":
           satisfies = satisfies && this.#courseDetails["Code"].slice(2, 4).toLowerCase() === value;
@@ -73,7 +82,7 @@ class CourseContent {
       }
     }
 
-    return satisfies;
+    return satisfies === null ? false : satisfies;
   }
 }
 

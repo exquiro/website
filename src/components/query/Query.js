@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormLabel, RadioGroup, Radio, Box, Grid, Flex, Divider, Select, NumberInput, NumberInputField, Text,Heading, Collapse, IconButton, Tooltip } from "@chakra-ui/core";
+import { FormLabel, Input, RadioGroup, Radio, Box, Grid, Flex, Divider, Select, NumberInput, NumberInputField, Text,Heading, Collapse, IconButton, Tooltip } from "@chakra-ui/core";
 
 const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
   return (
@@ -10,6 +10,12 @@ const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
           <Heading color="#343432">Course Filter</Heading>
           <Text color="#494846">All courses that satisfy these options will be shown. Leave any option blank to indicate no preference.</Text>
           <Divider></Divider>
+          <Flex direction="column" justifyContent="space-between" mb="5px">
+            <Flex alignItems={["flex-start", "flex-start", "flex-start", "center"]} direction={["column", "column", "column", "row"]}>
+              <FormLabel color="#494846"><b>Course name:</b></FormLabel>
+              <Input width={["100%", "100%", "100%", "90%"]} onChange={(e) => {updateParam(index, 'name', e.target.value)}}></Input>
+            </Flex>
+          </Flex>
           <Grid templateColumns={["1fr", "1fr", "1fr", "2fr 1fr 1fr"]}  rowGap="5px" columnGap={["10px", "10px", "10px", "0px"]}>
             <Flex direction = "column" justifyContent="space-between">
               <FormLabel  color="#494846" as="legend"><b>Area of Inquiry:</b></FormLabel>
