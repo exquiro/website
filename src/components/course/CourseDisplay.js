@@ -29,8 +29,11 @@ const CourseDisplay = ({ course, isSmall }) => {
                     { 
                       k === 'Link' 
                       ? <Link isExternal href={course.getCourseDetails[k]} color="#00b4b4">  {course.getCourseDetails[k]} </Link> 
-                      : k === 'Semesters' ? course.getCourseDetails[k].join(' and ')
-                                          : course.getCourseDetails[k]
+                      : k === 'Semesters' ? course.getCourseDetails[k].join(' and ')                 
+                      : k === 'Thematic cluster' ? course.getCourseDetails[k].length == 0 ? 'None'
+                                                                                          : course.getCourseDetails[k].join(' and ')
+                      : course.getCourseDetails[k]
+
                     }
                   </div>
                 </div>

@@ -79,6 +79,11 @@ class CourseContent {
         case "delivery":
           satisfies = satisfies && value === this.#courseDetails["Delivery mode"].toLowerCase();
           break;
+
+        case "cluster":
+          if (value === 'both') satisfies = satisfies && this.#courseDetails["Thematic cluster"].length === 2;
+          else satisfies = satisfies && this.#courseDetails["Thematic cluster"].includes(value.toUpperCase());
+          break;
       }
     }
 

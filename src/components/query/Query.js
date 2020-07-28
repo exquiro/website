@@ -67,6 +67,15 @@ const Query = ({ index, close, updateParam, duplicate, params, valid }) => {
                 <Radio value="offline" color="#494846">Offline</Radio>
               </RadioGroup>
             </Flex>
+
+            <Flex direction = "column" justifyContent="space-between">
+              <FormLabel as="legend" color="#494846"><b>Thematic cluster:</b></FormLabel>
+              <RadioGroup isInline onChange={(e) => {updateParam(index, 'cluster', e.target.value)}} value = {params['cluster'] || "null"}>
+                <Radio value="scce" color="#494846">SCCE</Radio>
+                <Radio value="tqm" color="#494846">TQM</Radio>
+                <Radio value="both" color="#494846">Both</Radio>
+              </RadioGroup>
+            </Flex>
         
           </Grid>
           <Grid mt="10px" templateColumns={["1fr", "1fr", "1fr", "1fr 1fr"]} columnGap={["20px", "20px", "20px", "0px"]} rowGap="10px">

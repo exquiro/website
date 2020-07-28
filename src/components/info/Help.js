@@ -35,6 +35,9 @@ const Help = ({ improperCourses }) => {
                     <b>Delivery mode</b> - whether your desired CCs are delivered in online/mixed/offline mode
                 </ListItem>
                 <ListItem>
+                    <b>Thematic cluster</b> - which thematic cluster(s) your desired CCs are in
+                </ListItem>
+                <ListItem>
                     <b>Coursework percentage</b> - the percentage of coursework you want in your desired CCs: 100% means no exam, while 60% would mean 60% coursework, 40% examination
                 </ListItem>
                 <ListItem>
