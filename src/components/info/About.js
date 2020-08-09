@@ -32,7 +32,7 @@ const About = () => {
                     <Flex alignItems="center">
                         <ListIcon icon={AiOutlineGithub} color="#343432" size={["20px", "20px", "30px", "30px"]}/>
                         <Text fontSize={["15px", "15px", "18.75px", "18.75px"]} fontFamily="Lato">
-                            <Link isExternal href="https://github.com/greatblitz982" color="#00b4b4">@greatblitz982</Link>
+                            <Link isExternal href="https://github.com/eehitray" color="#00b4b4">@eehitray</Link>
                         </Text>
                     </Flex>
                 </ListItem>
